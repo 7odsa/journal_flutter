@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:journal/common/theme_state.dart';
 
 void main() {
   runApp(const MainApp());
@@ -9,11 +11,25 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: Scaffold(
-        body: Center(
-          child: Text('Hello World!'),
-        ),
+    return ProviderScope(
+      child: Consumer(
+        builder: (BuildContext context, WidgetRef ref, Widget? child) {
+          ThemeMode mode = ref.watch(themeProvider);
+          return MaterialApp(
+            theme: ThemeData.light(),
+            darkTheme: ThemeData.dark(),
+            themeMode: mode,
+            home: Scaffold(
+              appBar: AppBar(),
+              body: TextButton(
+                onPressed: () {
+                  ref.read(themeProvider.notifier).toggleTheme();
+                },
+                child: Text("Switch"),
+              ),
+            ),
+          );
+        },
       ),
     );
   }
