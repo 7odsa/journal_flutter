@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journal/common/theme_state.dart';
+import 'package:journal/feat/news_articles/presentation/screens/home_screen.dart';
 
 void main() {
   runApp(const MainApp());
@@ -19,15 +20,7 @@ class MainApp extends StatelessWidget {
             theme: ThemeData.light(),
             darkTheme: ThemeData.dark(),
             themeMode: mode,
-            home: Scaffold(
-              appBar: AppBar(),
-              body: TextButton(
-                onPressed: () {
-                  ref.read(themeProvider.notifier).toggleTheme();
-                },
-                child: Text("Switch"),
-              ),
-            ),
+            home: HomeScreen(),
           );
         },
       ),
