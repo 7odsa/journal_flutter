@@ -1,20 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journal/common/theme_state.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key, required this.changeLocale});
+  final void Function(String lang) changeLocale;
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isEn = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: drawer(),
+      drawer: drawer(context),
       appBar: AppBar(),
       body: TextButton(onPressed: () {}, child: Text("Switch")),
     );
   }
 
-  Drawer drawer() {
+  Drawer drawer(BuildContext context) {
     return Drawer(
       child: Container(
         color: Colors.black,
@@ -25,7 +34,7 @@ class HomeScreen extends StatelessWidget {
               decoration: BoxDecoration(color: Colors.white),
               child: Center(
                 child: Text(
-                  "The_Journal",
+                  AppLocalizations.of(context)!.theJournal,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 32,
@@ -39,7 +48,7 @@ class HomeScreen extends StatelessWidget {
                 // TODO
               },
               label: Text(
-                "Go To Home",
+                AppLocalizations.of(context)!.home,
                 style: TextStyle(fontSize: 24, color: Colors.white),
               ),
               icon: Icon(Icons.home_rounded, size: 32, color: Colors.white),
@@ -55,7 +64,7 @@ class HomeScreen extends StatelessWidget {
                   Icon(Icons.draw_rounded, color: Colors.white, size: 32),
                   SizedBox(width: 8),
                   Text(
-                    "Theme",
+                    AppLocalizations.of(context)!.theme,
                     style: TextStyle(color: Colors.white, fontSize: 24),
                   ),
                   Spacer(),
@@ -91,13 +100,26 @@ class HomeScreen extends StatelessWidget {
                   Icon(Icons.language_rounded, color: Colors.white, size: 32),
                   SizedBox(width: 8),
                   Text(
-                    "Language",
+                    AppLocalizations.of(context)!.language,
                     style: TextStyle(color: Colors.white, fontSize: 24),
+                  ),
+                  Spacer(),
+                  Builder(
+                    builder: (BuildContext context) {
+                      return Switch(
+                        activeColor: Colors.white,
+                        value: isEn,
+                        onChanged: (value) {
+                          print(value);
+                          isEn = value;
+                          widget.changeLocale(isEn ? "en" : 'ar');
+                        },
+                      );
+                    },
                   ),
                 ],
               ),
             ),
-            Text("TODO", style: TextStyle(color: Colors.red, fontSize: 24)),
           ],
         ),
       ),
