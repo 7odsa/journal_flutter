@@ -1,25 +1,51 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journal/common/theme_state.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:journal/feat/news_articles/presentation/screens/categories_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key, required this.changeLocale});
+class MainScreen extends StatefulWidget {
+  const MainScreen({super.key, required this.changeLocale});
   final void Function(String lang) changeLocale;
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _MainScreenState extends State<MainScreen> {
   bool isEn = true;
+  late Widget currentScreen;
+  Category? category;
+  void onChangeScreen(Widget screen, {Category? c}) {
+    setState(() {
+      category = c;
+      currentScreen = screen;
+    });
+  }
+
+  @override
+  void initState() {
+    currentScreen = CategoriesScreen(onChangeScreen: onChangeScreen);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       drawer: drawer(context),
-      appBar: AppBar(),
-      body: TextButton(onPressed: () {}, child: Text("Switch")),
+      appBar: AppBar(
+        actions: [
+          IconButton(
+            onPressed: () {
+              // TODO
+            },
+            icon: Icon(Icons.search_rounded, size: 40),
+          ),
+          SizedBox(width: 8),
+        ],
+      ),
+      body: Padding(padding: const EdgeInsets.all(8.0), child: currentScreen),
     );
   }
 
@@ -45,7 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             TextButton.icon(
               onPressed: () {
-                // TODO
+                onChangeScreen(
+                  CategoriesScreen(onChangeScreen: onChangeScreen),
+                );
               },
               label: Text(
                 AppLocalizations.of(context)!.home,

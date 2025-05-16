@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journal/common/theme_state.dart';
-import 'package:journal/feat/news_articles/presentation/screens/home_screen.dart';
+import 'package:journal/feat/news_articles/presentation/screens/main_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -39,10 +39,15 @@ class _MainAppState extends State<MainApp> {
             ],
             locale: locale,
 
-            theme: ThemeData.light(),
+            theme: ThemeData.from(
+              colorScheme: ColorScheme.fromSeed(
+                seedColor: Colors.green,
+                brightness: Brightness.light,
+              ),
+            ),
             darkTheme: ThemeData.dark(),
             themeMode: mode,
-            home: HomeScreen(
+            home: MainScreen(
               changeLocale: (String lang) {
                 setState(() {
                   locale = Locale(lang);
