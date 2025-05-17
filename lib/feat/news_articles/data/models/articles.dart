@@ -25,8 +25,6 @@ class ArticlesModel extends ArticleEntity {
   }
 
   static List<ArticlesModel> getArticlesFromJson(Map<String, dynamic> json) {
-    List<ArticlesModel> articles = [];
-
     return (json["articles"] as List<dynamic>)
         .map((e) => ArticlesModel.fromJson(e))
         .toList();

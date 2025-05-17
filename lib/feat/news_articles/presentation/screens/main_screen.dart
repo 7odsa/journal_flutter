@@ -39,6 +39,7 @@ class _MainScreenState extends State<MainScreen> {
           IconButton(
             onPressed: () {
               // TODO
+              // !push search screen
             },
             icon: Icon(Icons.search_rounded, size: 40),
           ),
@@ -74,6 +75,7 @@ class _MainScreenState extends State<MainScreen> {
                 onChangeScreen(
                   CategoriesScreen(onChangeScreen: onChangeScreen),
                 );
+                Navigator.pop(context);
               },
               label: Text(
                 AppLocalizations.of(context)!.home,

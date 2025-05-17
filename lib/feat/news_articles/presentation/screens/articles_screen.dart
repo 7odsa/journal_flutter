@@ -1,35 +1,39 @@
 import 'package:flutter/material.dart';
-import 'package:journal/feat/news_articles/data/repos/articles_repo_impl.dart';
-import 'package:journal/feat/news_articles/domain/usecases/get_articles_usecase.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journal/feat/news_articles/presentation/models/category.dart';
+import 'package:journal/feat/news_articles/presentation/state_management/providers/articles_provider.dart';
+import 'package:journal/feat/news_articles/presentation/state_management/state.dart';
 
-class ArticlesScreen extends StatelessWidget {
+class ArticlesScreen extends ConsumerStatefulWidget {
   const ArticlesScreen({super.key, required this.category});
   final Category category;
-  void test() async {
-    final data = await GetArticlesUsecase(repo: ArticlesRepoImpl()).call();
-    print("main.dart");
-    print(data.data!.map((e) => e.auther).toList());
+
+  @override
+  ConsumerState<ArticlesScreen> createState() => _ArticlesScreenState();
+}
+
+class _ArticlesScreenState extends ConsumerState<ArticlesScreen> {
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() {
+      ref.read(articlesProvider.notifier).getArticles(widget.category);
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: GetArticlesUsecase(
-        repo: ArticlesRepoImpl(),
-      ).call(params: category),
-      builder:
-          (context, snapshot) =>
-              snapshot.connectionState == ConnectionState.waiting
-                  ? Center(child: CircularProgressIndicator())
-                  : Center(
-                    child: Text(
-                      snapshot.data!.data!
-                          .map((e) => e.auther)
-                          .toList()
-                          .toString(),
-                    ),
-                  ),
-    );
+    final state = ref.watch(articlesProvider);
+    final Widget screen =
+        (state is LoadingState)
+            ? Center(child: CircularProgressIndicator())
+            : Center(
+              child: Text(
+                (state is SuccessState)
+                    ? state.data!.map((e) => e.auther).toList().toString()
+                    : state.error!.message ?? "SomeThing Went Wrong",
+              ),
+            );
+    return screen;
   }
 }
