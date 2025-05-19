@@ -2,7 +2,7 @@ import 'package:journal/feat/news_articles/domain/entities/source.dart';
 
 class ArticleEntity {
   final String? id;
-  final String? auther;
+  final String? author;
   final String? title;
   final String? url;
   final String? urlToImage;
@@ -11,7 +11,7 @@ class ArticleEntity {
 
   const ArticleEntity({
     required this.id,
-    required this.auther,
+    required this.author,
     required this.title,
     required this.url,
     required this.urlToImage,

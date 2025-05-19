@@ -1,19 +1,24 @@
-import 'package:flutter/foundation.dart';
+import 'dart:async';
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journal/common/theme_state.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:journal/core/utils/network_provider/network_provider.dart';
+import 'package:journal/feat/news_articles/presentation/models/category.dart';
 import 'package:journal/feat/news_articles/presentation/screens/categories_screen.dart';
+import 'package:journal/feat/news_articles/presentation/state_management/providers/articles_provider.dart';
 
-class MainScreen extends StatefulWidget {
+class MainScreen extends ConsumerStatefulWidget {
   const MainScreen({super.key, required this.changeLocale});
   final void Function(String lang) changeLocale;
 
   @override
-  State<MainScreen> createState() => _MainScreenState();
+  ConsumerState<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends ConsumerState<MainScreen> {
   bool isEn = true;
   late Widget currentScreen;
   Category? category;
@@ -24,10 +29,32 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  late StreamSubscription<List<ConnectivityResult>> subscription;
+
   @override
   void initState() {
-    currentScreen = CategoriesScreen(onChangeScreen: onChangeScreen);
     super.initState();
+    currentScreen = CategoriesScreen(onChangeScreen: onChangeScreen);
+
+    subscription = Connectivity().onConnectivityChanged.listen((
+      List<ConnectivityResult> result,
+    ) {
+      if (result.contains(ConnectivityResult.none)) {
+        isConnectedNotifier.value = false;
+
+        print("no internet");
+      } else {
+        isConnectedNotifier.value = true;
+        ref.read(articlesProvider.notifier).getArticles(Category.categories[0]);
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    subscription.cancel();
+
+    super.dispose();
   }
 
   @override

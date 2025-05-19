@@ -1,8 +1,6 @@
-import 'package:dio/dio.dart';
-
 sealed class DataState<T> {
   final T? data;
-  final DioException? error;
+  final Exception? error;
 
   DataState({this.data, this.error});
 }
@@ -12,5 +10,5 @@ class DataSucces<T> extends DataState<T> {
 }
 
 class DataFailed<T> extends DataState<T> {
-  DataFailed({required DioException error}) : super(error: error);
+  DataFailed({required Exception error}) : super(error: error);
 }

@@ -1,15 +1,11 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:journal/common/theme_state.dart';
-import 'package:journal/core/utils/network_provider/network_provider.dart';
 import 'package:journal/feat/news_articles/presentation/di.dart';
 import 'package:journal/feat/news_articles/presentation/screens/main_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';
 
 void main() {
   initDependancies();
@@ -25,33 +21,6 @@ class MainApp extends ConsumerStatefulWidget {
 
 class _MainAppState extends ConsumerState<MainApp> {
   Locale locale = Locale('en');
-
-  late StreamSubscription<List<ConnectivityResult>> subscription;
-
-  @override
-  void initState() {
-    super.initState();
-    subscription = Connectivity().onConnectivityChanged.listen((
-      List<ConnectivityResult> result,
-    ) {
-      if (result.contains(ConnectivityResult.none)) {
-        // TODO create isConnectedNotifier provider
-        isConnectedNotifier.value = false;
-
-        print("no internet");
-      } else {
-        isConnectedNotifier.value = true;
-        // getHttp();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    subscription.cancel();
-
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {

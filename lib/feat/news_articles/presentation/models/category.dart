@@ -6,12 +6,11 @@ class Category {
 
   static final List<Category> categories = [
     Category(name: 'general', imgPath: 'assets/general.png'),
-    Category(name: 'Business', imgPath: 'assets/business.png'),
-    Category(name: 'Entertainment', imgPath: 'assets/entertainment.png'),
-    Category(name: 'General', imgPath: 'assets/general.png'),
-    Category(name: 'Health', imgPath: 'assets/health.png'),
-    Category(name: 'Science', imgPath: 'assets/science.png'),
-    Category(name: 'Sports', imgPath: 'assets/sports.png'),
-    Category(name: 'Technology', imgPath: 'assets/technology.png'),
+    Category(name: 'business', imgPath: 'assets/business.png'),
+    Category(name: 'entertainment', imgPath: 'assets/entertainment.png'),
+    Category(name: 'health', imgPath: 'assets/health.png'),
+    Category(name: 'science', imgPath: 'assets/science.png'),
+    Category(name: 'sports', imgPath: 'assets/sports.png'),
+    Category(name: 'technology', imgPath: 'assets/technology.png'),
   ];
 }

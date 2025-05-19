@@ -4,7 +4,7 @@ import 'package:journal/feat/news_articles/domain/entities/article.dart';
 class ArticlesModel extends ArticleEntity {
   ArticlesModel({
     required super.id,
-    required super.auther,
+    required super.author,
     required super.title,
     required super.url,
     required super.urlToImage,
@@ -12,16 +12,38 @@ class ArticlesModel extends ArticleEntity {
     required super.source,
   });
 
-  factory ArticlesModel.fromJson(Map<String, dynamic> json) {
+  factory ArticlesModel.fromJson(
+    Map<String, dynamic> json, {
+    bool isLocale = false,
+  }) {
     return ArticlesModel(
       id: null,
-      auther: json['author'],
+      author: json['author'],
       title: json['title'],
       url: json['url'],
       urlToImage: json['urlToImage'],
       publishedAt: json['publishedAt'],
-      source: SourceModel.fromJson(json),
+      source:
+          (isLocale)
+              ? SourceModel(
+                id: json['sourceId'],
+                name: json['sourceName'],
+                category: null,
+              )
+              : SourceModel.fromJson(json['source']),
     );
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      'id': this.id,
+      'author': this.author,
+      'title': this.title,
+      'url': this.url,
+      'urlToImage': this.urlToImage,
+      'publishedAt': this.publishedAt,
+      'sourceId': this.source?.id,
+      'sourceName': this.source?.name,
+    };
   }
 
   static List<ArticlesModel> getArticlesFromJson(Map<String, dynamic> json) {
