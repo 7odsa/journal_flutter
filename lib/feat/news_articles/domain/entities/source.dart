@@ -3,5 +3,9 @@ class SourceEntity {
   final String? name;
   final String? category;
 
-  SourceEntity({required this.id, required this.name, required this.category});
+  const SourceEntity({
+    required this.id,
+    required this.name,
+    required this.category,
+  });
 }

@@ -7,7 +7,11 @@ import 'package:journal/feat/news_articles/presentation/models/category.dart';
 import 'package:journal/feat/news_articles/presentation/state_management/providers/articles_provider.dart';
 import 'package:journal/feat/news_articles/presentation/state_management/state.dart';
 
-final List<SourceEntity> sources = [];
+List<SourceEntity> sources = [];
+const List<SourceEntity> initSources = [
+  SourceEntity(id: kAllArticlesSourceID, name: "All", category: 'category'),
+];
+const String kAllArticlesSourceID = 'all';
 
 final sourceProvider =
     NotifierProvider<SourceNotifier, State<List<SourceEntity>, Exception>>(
