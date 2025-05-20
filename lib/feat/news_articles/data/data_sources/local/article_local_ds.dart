@@ -31,7 +31,8 @@ class ArticleLocalDs {
       publishedAt  TEXT,
       sourceId  TEXT,
       sourceName  TEXT,
-      category  TEXT
+      category  TEXT,
+      description  TEXT
     )''');
   }
 

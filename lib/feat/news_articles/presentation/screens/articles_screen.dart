@@ -5,6 +5,7 @@ import 'package:journal/feat/news_articles/presentation/state_management/provide
 import 'package:journal/feat/news_articles/presentation/state_management/providers/sources_provider.dart';
 import 'package:journal/feat/news_articles/presentation/state_management/state.dart'
     as state;
+import 'package:journal/feat/news_articles/presentation/widgets/article_item.dart';
 
 class ArticlesScreen extends ConsumerStatefulWidget {
   const ArticlesScreen({super.key, required this.category});
@@ -29,16 +30,21 @@ class _ArticlesScreenState extends ConsumerState<ArticlesScreen> {
   Widget build(BuildContext context) {
     final filteredArticlesState = ref.watch(filteredArticlessProvider);
 
-    final Widget articlesWidget = Center(
-      child: Text(
+    final Widget articlesWidget =
         (filteredArticlesState is state.SuccessState)
-            ? filteredArticlesState.data!
-                .map((e) => e.author)
-                .toList()
-                .toString()
-            : filteredArticlesState.error.toString() ?? "SomeThing Went Wrong",
-      ),
-    );
+            ? Expanded(
+              child: ListView.builder(
+                itemCount: filteredArticlesState.data?.length ?? 0,
+                itemBuilder: (context, index) {
+                  return ArticleItem(
+                    article: filteredArticlesState.data![index],
+                  );
+                },
+              ),
+            )
+            : Text(
+              filteredArticlesState.error.toString() ?? "SomeThing Went Wrong",
+            );
 
     return (filteredArticlesState is state.LoadingState)
         ? Center(child: CircularProgressIndicator())

@@ -7,6 +7,8 @@ class ArticleEntity {
   final String? url;
   final String? urlToImage;
   final String? publishedAt;
+
+  final String? description;
   final SourceEntity? source;
 
   const ArticleEntity({
@@ -16,6 +18,7 @@ class ArticleEntity {
     required this.url,
     required this.urlToImage,
     required this.publishedAt,
+    required this.description,
     required this.source,
   });
 }

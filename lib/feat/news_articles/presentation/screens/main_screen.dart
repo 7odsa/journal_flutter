@@ -45,7 +45,6 @@ class _MainScreenState extends ConsumerState<MainScreen> {
         print("no internet");
       } else {
         isConnectedNotifier.value = true;
-        ref.read(articlesProvider.notifier).getArticles(Category.categories[0]);
       }
     });
   }

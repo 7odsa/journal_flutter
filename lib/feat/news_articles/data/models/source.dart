@@ -14,6 +14,7 @@ class SourceModel extends SourceEntity {
       category: json['category'],
     );
   }
+
   static List<SourceModel> allSourcesfromJson(Map<String, dynamic> json) {
     return (json['sources'] as List<dynamic>).map((e) {
       return SourceModel.fromJson(e);

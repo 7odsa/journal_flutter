@@ -9,6 +9,7 @@ class ArticlesModel extends ArticleEntity {
     required super.url,
     required super.urlToImage,
     required super.publishedAt,
+    required super.description,
     required super.source,
   });
 
@@ -23,6 +24,7 @@ class ArticlesModel extends ArticleEntity {
       url: json['url'],
       urlToImage: json['urlToImage'],
       publishedAt: json['publishedAt'],
+      description: json['description'],
       source:
           (isLocale)
               ? SourceModel(
@@ -43,6 +45,7 @@ class ArticlesModel extends ArticleEntity {
       'publishedAt': this.publishedAt,
       'sourceId': this.source?.id,
       'sourceName': this.source?.name,
+      'description': this.description,
     };
   }
 
