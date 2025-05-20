@@ -28,7 +28,10 @@ class ArticleItem extends StatelessWidget {
               height: 150,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(16),
-                child: Image.network(article.urlToImage!, fit: BoxFit.cover),
+                child:
+                    article.urlToImage == null
+                        ? Image.asset("assets/no-image.png")
+                        : Image.network(article.urlToImage!, fit: BoxFit.cover),
               ),
             ),
             Text(article.title!),
